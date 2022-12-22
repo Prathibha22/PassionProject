@@ -96,7 +96,7 @@ module.exports = async options =>
         }
       ),
       new WebpackNotifierPlugin({
-        title: 'Passion Project',
+        title: 'Note To School',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       }),
     ].filter(Boolean),

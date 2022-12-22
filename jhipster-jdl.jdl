@@ -1,0 +1,49 @@
+
+application {
+  config {
+    baseName NoteToSchool
+    applicationType monolith
+    packageName rocks.zipcode
+    prodDatabaseType postgresql
+    clientFramework react 
+  }
+  entities *
+}
+
+entity Student {
+FullName String,
+Address String,
+Grade Integer,
+ContactNo String
+}
+
+entity Bus{
+Name String
+}
+entity RequestTracker {
+Date LocalDate,
+requestType RequestType,
+Description String
+}
+
+enum RequestType{
+  ABSENT("Absent"),
+  EARLYDISMISSAL("Early Dismissal"),
+  CAR("Car"),
+  BUS(Bus),
+  AFTERSCHOOLCLUB("After School Club")
+}
+relationship ManyToOne {
+  Student{user(Login)} to User
+}
+relationship ManyToOne {
+  RequestTracker{student(FullName)} to Student
+  //RequestTracker{user(Login)} to User
+}
+relationship ManyToOne {
+  Student{bus(Name)} to Bus
+}
+
+
+
+

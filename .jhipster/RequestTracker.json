@@ -1,0 +1,36 @@
+{
+  "applications": ["NoteToSchool"],
+  "changelogDate": "20221222020820",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "request_tracker",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "requestType",
+      "fieldType": "RequestType",
+      "fieldValues": "ABSENT (Absent),EARLYDISMISSAL (Early Dismissal),CAR (Car),BUS (Bus),AFTERSCHOOLCLUB (After School Club)"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "RequestTracker",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "fullName",
+      "otherEntityName": "student",
+      "relationshipName": "student",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

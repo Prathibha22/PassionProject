@@ -1,0 +1,20 @@
+{
+  "applications": ["NoteToSchool"],
+  "changelogDate": "20221222020819",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "bus",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Bus",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

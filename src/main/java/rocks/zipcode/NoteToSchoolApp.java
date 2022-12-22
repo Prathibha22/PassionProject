@@ -21,18 +21,18 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
-public class PassionProjectApp {
+public class NoteToSchoolApp {
 
-    private static final Logger log = LoggerFactory.getLogger(PassionProjectApp.class);
+    private static final Logger log = LoggerFactory.getLogger(NoteToSchoolApp.class);
 
     private final Environment env;
 
-    public PassionProjectApp(Environment env) {
+    public NoteToSchoolApp(Environment env) {
         this.env = env;
     }
 
     /**
-     * Initializes PassionProject.
+     * Initializes NoteToSchool.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>
@@ -65,7 +65,7 @@ public class PassionProjectApp {
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(PassionProjectApp.class);
+        SpringApplication app = new SpringApplication(NoteToSchoolApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);

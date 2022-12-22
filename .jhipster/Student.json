@@ -1,0 +1,45 @@
+{
+  "applications": ["NoteToSchool"],
+  "changelogDate": "20221222020818",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "student",
+  "fields": [
+    {
+      "fieldName": "fullName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "grade",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "contactNo",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Student",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "bus",
+      "relationshipName": "bus",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

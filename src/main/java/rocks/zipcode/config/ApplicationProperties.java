@@ -3,7 +3,7 @@ package rocks.zipcode.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Properties specific to Passion Project.
+ * Properties specific to Note To School.
  * <p>
  * Properties are configured in the {@code application.yml} file.
  * See {@link tech.jhipster.config.JHipsterProperties} for a good example.

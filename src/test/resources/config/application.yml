@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: PassionProject
+    name: NoteToSchool
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -33,13 +33,13 @@ spring:
     basename: i18n/messages
   task:
     execution:
-      thread-name-prefix: passion-project-task-
+      thread-name-prefix: note-to-school-task-
       pool:
         core-size: 1
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: passion-project-scheduling-
+      thread-name-prefix: note-to-school-scheduling-
       pool:
         size: 20
   thymeleaf:
@@ -56,9 +56,9 @@ server:
 # ===================================================================
 jhipster:
   clientApp:
-    name: 'passionProjectApp'
+    name: 'noteToSchoolApp'
   mail:
-    from: PassionProject@localhost.com
+    from: NoteToSchool@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -72,7 +72,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: ZjU1ODNlNjMyMzc1Mzg2Y2VjMDFlNmM2ZGQ0YzE0MTg0NzZiY2RmMDU0ZWRkNTYzOWRhMjg4NThkNmJhMjlhNTJmZjVjMjJiODZiMDNhMGU4NGRlZmQ2OWUzZmNjOTljNGExOWVjMzI4MmFlMDk1NjFmNDM5MWQ4ZGFiMDU0YmU=
+        base64-secret: NTQwYmRiNjA3NWYwY2UwNjA2Mjk2ZjNkMDkwMDk0MzE5YjRlMjg1ZWE1NDVhN2I3NmQ5Zjk4MDRiZTVkMzZlZTFkZGEzMGQyYzhjMWNkYWM4OTUwMzdjOTM2ODZmMTA3MmYwN2NkYmM2NDExZmE1OWE1NjJiZTEwYjY1OTEyNzE=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 
