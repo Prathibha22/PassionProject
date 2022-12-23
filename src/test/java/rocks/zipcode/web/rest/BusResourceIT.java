@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import rocks.zipcode.IntegrationTest;
 import rocks.zipcode.domain.Bus;
 import rocks.zipcode.repository.BusRepository;
+import rocks.zipcode.service.dto.BusDTO;
+import rocks.zipcode.service.mapper.BusMapper;
 
 /**
  * Integration tests for the {@link BusResource} REST controller.
@@ -40,6 +42,9 @@ class BusResourceIT {
 
     @Autowired
     private BusRepository busRepository;
+
+    @Autowired
+    private BusMapper busMapper;
 
     @Autowired
     private EntityManager em;
@@ -81,8 +86,9 @@ class BusResourceIT {
     void createBus() throws Exception {
         int databaseSizeBeforeCreate = busRepository.findAll().size();
         // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
         restBusMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bus)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(busDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Bus in the database
@@ -97,12 +103,13 @@ class BusResourceIT {
     void createBusWithExistingId() throws Exception {
         // Create the Bus with an existing ID
         bus.setId(1L);
+        BusDTO busDTO = busMapper.toDto(bus);
 
         int databaseSizeBeforeCreate = busRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBusMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bus)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(busDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Bus in the database
@@ -160,12 +167,13 @@ class BusResourceIT {
         // Disconnect from session so that the updates on updatedBus are not directly saved in db
         em.detach(updatedBus);
         updatedBus.name(UPDATED_NAME);
+        BusDTO busDTO = busMapper.toDto(updatedBus);
 
         restBusMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedBus.getId())
+                put(ENTITY_API_URL_ID, busDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedBus))
+                    .content(TestUtil.convertObjectToJsonBytes(busDTO))
             )
             .andExpect(status().isOk());
 
@@ -182,10 +190,15 @@ class BusResourceIT {
         int databaseSizeBeforeUpdate = busRepository.findAll().size();
         bus.setId(count.incrementAndGet());
 
+        // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBusMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, bus.getId()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bus))
+                put(ENTITY_API_URL_ID, busDTO.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(busDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -200,12 +213,15 @@ class BusResourceIT {
         int databaseSizeBeforeUpdate = busRepository.findAll().size();
         bus.setId(count.incrementAndGet());
 
+        // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBusMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(bus))
+                    .content(TestUtil.convertObjectToJsonBytes(busDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -220,9 +236,12 @@ class BusResourceIT {
         int databaseSizeBeforeUpdate = busRepository.findAll().size();
         bus.setId(count.incrementAndGet());
 
+        // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBusMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bus)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(busDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Bus in the database
@@ -292,12 +311,15 @@ class BusResourceIT {
         int databaseSizeBeforeUpdate = busRepository.findAll().size();
         bus.setId(count.incrementAndGet());
 
+        // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBusMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, bus.getId())
+                patch(ENTITY_API_URL_ID, busDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(bus))
+                    .content(TestUtil.convertObjectToJsonBytes(busDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -312,12 +334,15 @@ class BusResourceIT {
         int databaseSizeBeforeUpdate = busRepository.findAll().size();
         bus.setId(count.incrementAndGet());
 
+        // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBusMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(bus))
+                    .content(TestUtil.convertObjectToJsonBytes(busDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -332,9 +357,12 @@ class BusResourceIT {
         int databaseSizeBeforeUpdate = busRepository.findAll().size();
         bus.setId(count.incrementAndGet());
 
+        // Create the Bus
+        BusDTO busDTO = busMapper.toDto(bus);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBusMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(bus)))
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(busDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Bus in the database

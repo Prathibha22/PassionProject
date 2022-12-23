@@ -1,7 +1,7 @@
 {
   "applications": ["NoteToSchool"],
-  "changelogDate": "20221222020818",
-  "dto": "no",
+  "changelogDate": "20221223162045",
+  "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "student",
   "fields": [
@@ -41,5 +41,5 @@
       "relationshipType": "many-to-one"
     }
   ],
-  "service": "no"
+  "service": "serviceClass"
 }

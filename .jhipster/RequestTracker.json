@@ -1,7 +1,7 @@
 {
   "applications": ["NoteToSchool"],
-  "changelogDate": "20221222020820",
-  "dto": "no",
+  "changelogDate": "20221223162047",
+  "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "request_tracker",
   "fields": [
@@ -32,5 +32,5 @@
       "relationshipType": "many-to-one"
     }
   ],
-  "service": "no"
+  "service": "serviceClass"
 }

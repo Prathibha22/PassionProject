@@ -31,6 +31,9 @@ import rocks.zipcode.IntegrationTest;
 import rocks.zipcode.domain.RequestTracker;
 import rocks.zipcode.domain.enumeration.RequestType;
 import rocks.zipcode.repository.RequestTrackerRepository;
+import rocks.zipcode.service.RequestTrackerService;
+import rocks.zipcode.service.dto.RequestTrackerDTO;
+import rocks.zipcode.service.mapper.RequestTrackerMapper;
 
 /**
  * Integration tests for the {@link RequestTrackerResource} REST controller.
@@ -61,6 +64,12 @@ class RequestTrackerResourceIT {
 
     @Mock
     private RequestTrackerRepository requestTrackerRepositoryMock;
+
+    @Autowired
+    private RequestTrackerMapper requestTrackerMapper;
+
+    @Mock
+    private RequestTrackerService requestTrackerServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -108,9 +117,10 @@ class RequestTrackerResourceIT {
     void createRequestTracker() throws Exception {
         int databaseSizeBeforeCreate = requestTrackerRepository.findAll().size();
         // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
         restRequestTrackerMockMvc
             .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isCreated());
 
@@ -128,13 +138,14 @@ class RequestTrackerResourceIT {
     void createRequestTrackerWithExistingId() throws Exception {
         // Create the RequestTracker with an existing ID
         requestTracker.setId(1L);
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
 
         int databaseSizeBeforeCreate = requestTrackerRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restRequestTrackerMockMvc
             .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -162,16 +173,16 @@ class RequestTrackerResourceIT {
 
     @SuppressWarnings({ "unchecked" })
     void getAllRequestTrackersWithEagerRelationshipsIsEnabled() throws Exception {
-        when(requestTrackerRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(requestTrackerServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         restRequestTrackerMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
-        verify(requestTrackerRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+        verify(requestTrackerServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @SuppressWarnings({ "unchecked" })
     void getAllRequestTrackersWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(requestTrackerRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(requestTrackerServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         restRequestTrackerMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
         verify(requestTrackerRepositoryMock, times(1)).findAll(any(Pageable.class));
@@ -214,12 +225,13 @@ class RequestTrackerResourceIT {
         // Disconnect from session so that the updates on updatedRequestTracker are not directly saved in db
         em.detach(updatedRequestTracker);
         updatedRequestTracker.date(UPDATED_DATE).requestType(UPDATED_REQUEST_TYPE).description(UPDATED_DESCRIPTION);
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(updatedRequestTracker);
 
         restRequestTrackerMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedRequestTracker.getId())
+                put(ENTITY_API_URL_ID, requestTrackerDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedRequestTracker))
+                    .content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isOk());
 
@@ -238,12 +250,15 @@ class RequestTrackerResourceIT {
         int databaseSizeBeforeUpdate = requestTrackerRepository.findAll().size();
         requestTracker.setId(count.incrementAndGet());
 
+        // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRequestTrackerMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, requestTracker.getId())
+                put(ENTITY_API_URL_ID, requestTrackerDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                    .content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -258,12 +273,15 @@ class RequestTrackerResourceIT {
         int databaseSizeBeforeUpdate = requestTrackerRepository.findAll().size();
         requestTracker.setId(count.incrementAndGet());
 
+        // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRequestTrackerMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                    .content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -278,9 +296,14 @@ class RequestTrackerResourceIT {
         int databaseSizeBeforeUpdate = requestTrackerRepository.findAll().size();
         requestTracker.setId(count.incrementAndGet());
 
+        // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRequestTrackerMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(requestTracker)))
+            .perform(
+                put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the RequestTracker in the database
@@ -356,12 +379,15 @@ class RequestTrackerResourceIT {
         int databaseSizeBeforeUpdate = requestTrackerRepository.findAll().size();
         requestTracker.setId(count.incrementAndGet());
 
+        // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRequestTrackerMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, requestTracker.getId())
+                patch(ENTITY_API_URL_ID, requestTrackerDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                    .content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -376,12 +402,15 @@ class RequestTrackerResourceIT {
         int databaseSizeBeforeUpdate = requestTrackerRepository.findAll().size();
         requestTracker.setId(count.incrementAndGet());
 
+        // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRequestTrackerMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                    .content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -396,10 +425,15 @@ class RequestTrackerResourceIT {
         int databaseSizeBeforeUpdate = requestTrackerRepository.findAll().size();
         requestTracker.setId(count.incrementAndGet());
 
+        // Create the RequestTracker
+        RequestTrackerDTO requestTrackerDTO = requestTrackerMapper.toDto(requestTracker);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRequestTrackerMockMvc
             .perform(
-                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(requestTracker))
+                patch(ENTITY_API_URL)
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(requestTrackerDTO))
             )
             .andExpect(status().isMethodNotAllowed());
 

@@ -1,7 +1,7 @@
 {
   "applications": ["NoteToSchool"],
-  "changelogDate": "20221222020819",
-  "dto": "no",
+  "changelogDate": "20221223162046",
+  "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "bus",
   "fields": [
@@ -16,5 +16,5 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [],
-  "service": "no"
+  "service": "serviceClass"
 }

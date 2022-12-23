@@ -28,6 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 import rocks.zipcode.IntegrationTest;
 import rocks.zipcode.domain.Student;
 import rocks.zipcode.repository.StudentRepository;
+import rocks.zipcode.service.StudentService;
+import rocks.zipcode.service.dto.StudentDTO;
+import rocks.zipcode.service.mapper.StudentMapper;
 
 /**
  * Integration tests for the {@link StudentResource} REST controller.
@@ -61,6 +64,12 @@ class StudentResourceIT {
 
     @Mock
     private StudentRepository studentRepositoryMock;
+
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Mock
+    private StudentService studentServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -110,8 +119,9 @@ class StudentResourceIT {
     void createStudent() throws Exception {
         int databaseSizeBeforeCreate = studentRepository.findAll().size();
         // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
         restStudentMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(student)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(studentDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Student in the database
@@ -129,12 +139,13 @@ class StudentResourceIT {
     void createStudentWithExistingId() throws Exception {
         // Create the Student with an existing ID
         student.setId(1L);
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         int databaseSizeBeforeCreate = studentRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restStudentMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(student)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(studentDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Student in the database
@@ -162,16 +173,16 @@ class StudentResourceIT {
 
     @SuppressWarnings({ "unchecked" })
     void getAllStudentsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(studentRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(studentServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         restStudentMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
-        verify(studentRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+        verify(studentServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @SuppressWarnings({ "unchecked" })
     void getAllStudentsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(studentRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(studentServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         restStudentMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
         verify(studentRepositoryMock, times(1)).findAll(any(Pageable.class));
@@ -215,12 +226,13 @@ class StudentResourceIT {
         // Disconnect from session so that the updates on updatedStudent are not directly saved in db
         em.detach(updatedStudent);
         updatedStudent.fullName(UPDATED_FULL_NAME).address(UPDATED_ADDRESS).grade(UPDATED_GRADE).contactNo(UPDATED_CONTACT_NO);
+        StudentDTO studentDTO = studentMapper.toDto(updatedStudent);
 
         restStudentMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedStudent.getId())
+                put(ENTITY_API_URL_ID, studentDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedStudent))
+                    .content(TestUtil.convertObjectToJsonBytes(studentDTO))
             )
             .andExpect(status().isOk());
 
@@ -240,12 +252,15 @@ class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
         student.setId(count.incrementAndGet());
 
+        // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restStudentMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, student.getId())
+                put(ENTITY_API_URL_ID, studentDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(student))
+                    .content(TestUtil.convertObjectToJsonBytes(studentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -260,12 +275,15 @@ class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
         student.setId(count.incrementAndGet());
 
+        // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restStudentMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(student))
+                    .content(TestUtil.convertObjectToJsonBytes(studentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -280,9 +298,12 @@ class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
         student.setId(count.incrementAndGet());
 
+        // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restStudentMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(student)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(studentDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Student in the database
@@ -360,12 +381,15 @@ class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
         student.setId(count.incrementAndGet());
 
+        // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restStudentMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, student.getId())
+                patch(ENTITY_API_URL_ID, studentDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(student))
+                    .content(TestUtil.convertObjectToJsonBytes(studentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -380,12 +404,15 @@ class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
         student.setId(count.incrementAndGet());
 
+        // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restStudentMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(student))
+                    .content(TestUtil.convertObjectToJsonBytes(studentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -400,9 +427,14 @@ class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
         student.setId(count.incrementAndGet());
 
+        // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restStudentMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(student)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(studentDTO))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Student in the database

@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity RequestTracker.
     -->
-    <changeSet id="20221222020820-2" author="jhipster">
+    <changeSet id="20221223162047-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="student_id"
                                  baseTableName="request_tracker"

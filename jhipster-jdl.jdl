@@ -43,6 +43,8 @@ relationship ManyToOne {
 relationship ManyToOne {
   Student{bus(Name)} to Bus
 }
+dto * with mapstruct
+service * with serviceClass
 
 
 
