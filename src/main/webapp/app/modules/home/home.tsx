@@ -17,16 +17,14 @@ export const Home = () => {
       </Col>
       <Col md="9">
         <h2>
-          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
+          <Translate contentKey="home.title">Welcome, Parent!</Translate>
         </h2>
-        <p className="lead">
-          <Translate contentKey="home.subtitle">This is your homepage</Translate>
-        </p>
+        <p className="lead">{/*           <Translate contentKey="home.subtitle">This is your homepage</Translate> */}</p>
         {account?.login ? (
           <div>
             <Alert color="success">
               <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
-                You are logged in as user {account.login}.
+                You are logged in as user {account.login}. Welcome to School!
               </Translate>
             </Alert>
           </div>
@@ -57,37 +55,37 @@ export const Home = () => {
           <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
         </p>
 
-        <ul>
-          <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
-            </a>
-          </li>
-        </ul>
+        {/*         <ul> */}
+        {/*           <li> */}
+        {/*             <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer"> */}
+        {/*               <Translate contentKey="home.link.homepage">JHipster homepage</Translate> */}
+        {/*             </a> */}
+        {/*           </li> */}
+        {/*           <li> */}
+        {/*             <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer"> */}
+        {/*               <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate> */}
+        {/*             </a> */}
+        {/*           </li> */}
+        {/*           <li> */}
+        {/*             <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer"> */}
+        {/*               <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate> */}
+        {/*             </a> */}
+        {/*           </li> */}
+        {/*           <li> */}
+        {/*             <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer"> */}
+        {/*               <Translate contentKey="home.link.chat">JHipster public chat room</Translate> */}
+        {/*             </a> */}
+        {/*           </li> */}
+        {/*           <li> */}
+        {/*             <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer"> */}
+        {/*               <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate> */}
+        {/*             </a> */}
+        {/*           </li> */}
+        {/*         </ul> */}
 
         <p>
           <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Prathibha22/PassionProject/tree/main/src/main/webapp/app" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
           !
