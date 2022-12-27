@@ -90,6 +90,16 @@ public class StudentService {
         return studentRepository.findAll().stream().map(studentMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
+    @Transactional(readOnly = true)
+    public List<StudentDTO> findAllUser() {
+        log.debug("Request to get all Students for User");
+        return studentRepository
+            .findByUserIsCurrentUser()
+            .stream()
+            .map(studentMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
     /**
      * Get all the students with eager load of many-to-many relationships.
      *

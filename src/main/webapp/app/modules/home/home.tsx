@@ -9,7 +9,7 @@ import { useAppSelector } from 'app/config/store';
 
 export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
-
+  const users = useAppSelector(state => state.userManagement.users);
   return (
     <Row>
       <Col md="3" className="pad">
@@ -27,6 +27,10 @@ export const Home = () => {
                 You are logged in as user {account.login}. Welcome to School!
               </Translate>
             </Alert>
+            <ul>
+              <li>{account.authorities}</li>
+              <li> {users.authentication}</li>
+            </ul>
           </div>
         ) : (
           <div>

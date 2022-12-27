@@ -142,13 +142,19 @@ public class StudentResource {
         return studentService.findAll();
     }
 
+    @GetMapping("/students/user")
+    public List<StudentDTO> getAllUserStudents(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all Students for User");
+        return studentService.findAllUser();
+    }
+
     /**
      * {@code GET  /students/:id} : get the "id" student.
      *
      * @param id the id of the studentDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the studentDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/students/{id}")
+    @GetMapping(value = { "/students/{id}", "/StudentUser/{id}" })
     public ResponseEntity<StudentDTO> getStudent(@PathVariable Long id) {
         log.debug("REST request to get Student : {}", id);
         Optional<StudentDTO> studentDTO = studentService.findOne(id);

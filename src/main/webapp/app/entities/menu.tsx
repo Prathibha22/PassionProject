@@ -10,6 +10,10 @@ const EntitiesMenu = () => {
       <MenuItem icon="asterisk" to="/student">
         <Translate contentKey="global.menu.entities.student" />
       </MenuItem>
+      <MenuItem icon="asterisk" to="/studentUser">
+        StudentUser
+        {/*               <Translate contentKey="global.menu.entities.studentUser" /> */}
+      </MenuItem>
       <MenuItem icon="asterisk" to="/bus">
         <Translate contentKey="global.menu.entities.bus" />
       </MenuItem>
