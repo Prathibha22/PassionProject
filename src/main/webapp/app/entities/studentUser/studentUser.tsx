@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
 import { IStudent } from 'app/shared/model/student.model';
 import { getEntities } from './studentUser.reducer';
 
@@ -31,17 +30,6 @@ export const StudentUser = () => {
     <div>
       <h2 id="student-heading" data-cy="StudentHeading">
         <Translate contentKey="noteToSchoolApp.student.home.title">Students</Translate>
-        {/*         <div className="d-flex justify-content-end"> */}
-        {/*           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}> */}
-        {/*             <FontAwesomeIcon icon="sync" spin={loading} />{' '} */}
-        {/*             <Translate contentKey="noteToSchoolApp.student.home.refreshListLabel">Refresh List</Translate> */}
-        {/*           </Button> */}
-        {/*           <Link to="/student/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton"> */}
-        {/*             <FontAwesomeIcon icon="plus" /> */}
-        {/*             &nbsp; */}
-        {/*             <Translate contentKey="noteToSchoolApp.student.home.createLabel">Create new Student</Translate> */}
-        {/*           </Link> */}
-        {/*         </div> */}
       </h2>
       <div className="table-responsive">
         {studentUserList && studentUserList.length > 0 ? (
@@ -75,27 +63,21 @@ export const StudentUser = () => {
             <tbody>
               {studentUserList.map((studentUser, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    {studentUser.id}
-                    {/*                     <Button tag={Link} to={`/studentUser/${studentUser.id}`} color="link" size="sm"> */}
-                    {/*                       {studentUser.id} */}
-                    {/*                     </Button> */}
-                  </td>
+                  <td>{studentUser.id}</td>
                   <td>{studentUser.fullName}</td>
                   <td>{studentUser.address}</td>
                   <td>{studentUser.grade}</td>
                   <td>{studentUser.contactNo}</td>
                   <td>{studentUser.user ? studentUser.user.login : ''}</td>
                   <td>{studentUser.bus.name}</td>
-                  {/*                   <td>{studentUser.bus ? <Link to={`/bus/${studentUser.bus.id}`}>{studentUser.bus.name}</Link> : ''}</td> */}
-                  <td className="text-end">
-                    <Button tag={Link} to={`/request-tracker/new`} color="primary" size="sm" data-cy="entityEditButton">
-                      <FontAwesomeIcon icon="pencil-alt" /> Request
-                    </Button>
-                  </td>
                 </tr>
               ))}
             </tbody>
+            <div>
+              <Button tag={Link} to={`/request-trackerUser/new`} color="primary" size="sm" data-cy="entityEditButton">
+                <FontAwesomeIcon icon="pencil-alt" /> Request
+              </Button>
+            </div>
           </Table>
         ) : (
           !loading && (

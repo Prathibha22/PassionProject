@@ -1,0 +1,27 @@
+{
+  "noteToSchoolApp": {
+    "requestTracker": {
+      "home": {
+        "title": "Request Trackers",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Request Tracker",
+        "createOrEditLabel": "Create or edit a Request Tracker",
+        "notFound": "No Request Trackers found"
+      },
+      "created": "A new Request Tracker is created with identifier {{ param }}",
+      "updated": "A Request Tracker is updated with identifier {{ param }}",
+      "deleted": "A Request Tracker is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Request Tracker {{ id }}?"
+      },
+      "detail": {
+        "title": "Request Tracker"
+      },
+      "id": "ID",
+      "date": "Date",
+      "requestType": "Request Type",
+      "description": "Description",
+      "student": "Student"
+    }
+  }
+}

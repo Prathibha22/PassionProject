@@ -6,6 +6,7 @@ import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import Student from './student';
 import Bus from './bus';
 import RequestTracker from './request-tracker';
+import RequestTrackerUser from './request-trackerUser';
 import StudentUser from './studentUser';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
@@ -18,6 +19,7 @@ export default () => {
         <Route path="studentUser/*" element={<StudentUser />} />
         <Route path="bus/*" element={<Bus />} />
         <Route path="request-tracker/*" element={<RequestTracker />} />
+        <Route path="request-trackerUser/*" element={<RequestTrackerUser />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>
