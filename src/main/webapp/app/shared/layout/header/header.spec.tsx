@@ -12,13 +12,13 @@ describe('Header', () => {
     isAuthenticated: true,
     isAdmin: true,
     currentLocale: 'en',
-    ribbonEnv: 'dev',
+    //     ribbonEnv: 'dev',
     isInProduction: false,
     isOpenAPIEnabled: true,
   };
   const prodProps = {
     ...devProps,
-    ribbonEnv: 'prod',
+    // ribbonEnv: 'prod',
     isInProduction: true,
     isOpenAPIEnabled: false,
   };
@@ -64,7 +64,7 @@ describe('Header', () => {
     // Find AccountMenu component
     expect(html).toContain('account-menu');
     // Ribbon
-    expect(html).toContain('ribbon');
+    //  expect(html).toContain('ribbon');
   });
 
   it('Renders a Header component in prod profile with LoadingBar, Navbar, Nav.', () => {
