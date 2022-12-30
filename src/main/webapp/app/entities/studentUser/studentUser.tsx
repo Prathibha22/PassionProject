@@ -73,9 +73,15 @@ export const StudentUser = () => {
                 </tr>
               ))}
             </tbody>
-            <div>
+            <p></p>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'right',
+              }}
+            >
               <Button tag={Link} to={`/request-trackerUser/new`} color="primary" size="sm" data-cy="entityEditButton">
-                <FontAwesomeIcon icon="pencil-alt" /> Request
+                <Translate contentKey="noteToSchoolApp.studentUser.request"> Request</Translate>
               </Button>
             </div>
           </Table>

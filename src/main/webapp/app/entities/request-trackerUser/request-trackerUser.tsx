@@ -28,20 +28,6 @@ export const RequestTrackerUser = () => {
 
   return (
     <div>
-      {/*       <h2 id="request-tracker-heading" data-cy="RequestTrackerHeading"> */}
-      {/*         <Translate contentKey="noteToSchoolApp.requestTracker.home.title">Request Trackers</Translate> */}
-      {/*         <div className="d-flex justify-content-end"> */}
-      {/*           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}> */}
-      {/*             <FontAwesomeIcon icon="sync" spin={loading} />{' '} */}
-      {/*             <Translate contentKey="noteToSchoolApp.requestTracker.home.refreshListLabel">Refresh List</Translate> */}
-      {/*           </Button> */}
-      {/*           <Link to="/request-tracker/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton"> */}
-      {/*             <FontAwesomeIcon icon="plus" /> */}
-      {/*             &nbsp; */}
-      {/*             <Translate contentKey="noteToSchoolApp.requestTracker.home.createLabel">Create new Request Tracker</Translate> */}
-      {/*           </Link> */}
-      {/*         </div> */}
-      {/*       </h2> */}
       <div className="table-responsive">
         {requestTrackerListUser && requestTrackerListUser.length > 0 ? (
           <Table responsive>

@@ -60,15 +60,27 @@ export const Home = () => {
                   {/*                checking the role of user */}
                   {account.authorities == 'ROLE_USER' ? (
                     <p>
-                      <Button tag={Link} to="/studentUser" replace color="info" data-cy="entityDetailsBackButton">
-                        <span className="d-none d-md-inline">Click on the link to view the StudentDetails</span>
-                      </Button>
+                      <Alert color="warning">
+                        <Translate contentKey="home.userlogin"></Translate>
+                        <Link to="/studentUser" className="alert-link">
+                          <Translate contentKey="home.details"> sign in</Translate>
+                        </Link>
+                        <Translate contentKey="home.studentinfo"> </Translate>
+                      </Alert>
                     </p>
                   ) : (
                     <p>
-                      <Button tag={Link} to="/request-tracker" replace color="info" data-cy="entityDetailsBackButton">
-                        <span className="d-none d-md-inline">Click on the link to view the change request</span>
-                      </Button>
+                      <Alert color="warning">
+                        <Translate contentKey="home.userlogin"></Translate>
+                        <Link to="/request-tracker" className="alert-link">
+                          {' '}
+                          <Translate contentKey="home.details"> </Translate>
+                        </Link>
+                        <Translate contentKey="home.studentinfoadmin"> </Translate>
+                      </Alert>
+                      {/*                       <Button tag={Link} to="/request-tracker" replace color="info" data-cy="entityDetailsBackButton"> */}
+                      {/*                         <span className="d-none d-md-inline">Click on the link to view the change request</span> */}
+                      {/*                       </Button> */}
                     </p>
                   )}
                 </p>
